@@ -4,6 +4,7 @@ import (
 	"SberDS/internal/models"
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	_ "github.com/lib/pq"
 	"time"
@@ -68,4 +69,39 @@ func (r *Repository) SetReport(ctx context.Context, data models.SetReportReq) er
 	}
 
 	return nil
+}
+
+func (r *Repository) GetMaxObservationTime(ctx context.Context, modelId int) (json.RawMessage, error) {
+	var jsonResp json.RawMessage
+	err := r.db.QueryRowContext(ctx, maxObservationTimeSQL, modelId).Scan(&jsonResp)
+	if err != nil {
+		return nil, fmt.Errorf("can't get max observation time: %v", err)
+	}
+
+	return jsonResp, nil
+}
+
+func (r *Repository) AddSnippetToRequestHistory(ctx context.Context, dto models.RequestSnippet) error {
+	data, err := json.Marshal(dto)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.db.ExecContext(ctx, addSnippetRequestHistorySQL, data)
+	if err != nil {
+		return fmt.Errorf("can't add snippet to request history: %v", err)
+	}
+
+	return nil
+}
+
+func (r *Repository) RequestsHistory(ctx context.Context, offset int, limit int) (json.RawMessage, error) {
+	var jsonResp json.RawMessage
+
+	err := r.db.QueryRowContext(ctx, getRequestsHistorySQL, offset, limit).Scan(&jsonResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return jsonResp, nil
 }

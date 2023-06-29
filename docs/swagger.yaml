@@ -1,0 +1,154 @@
+definitions:
+  models.ErrorMessage:
+    properties:
+      error_msg:
+        type: string
+    type: object
+  models.GetReportResp:
+    properties:
+      error_msg:
+        type: string
+      report_info:
+        type: string
+    type: object
+  models.RequestsHistoryResp:
+    properties:
+      list:
+        items:
+          properties:
+            date:
+              type: string
+            endpoint:
+              type: string
+            id:
+              type: integer
+            user_name:
+              type: string
+          type: object
+        type: array
+    type: object
+  models.SetReportReq:
+    properties:
+      model_id:
+        type: integer
+      report_info:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/get_observation_time/{model_id}:
+    get:
+      consumes:
+      - application/json
+      description: Получить максимальное промежуток времени в течении которых не было
+        поступлений отчетов по модели
+      parameters:
+      - description: model_id
+        in: path
+        name: model_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: Получить максимальное промежуток времени в течении которых не было
+        поступлений отчетов по модели
+      tags:
+      - Reports
+  /api/v1/get_report/{report_id}:
+    get:
+      description: Получить информацию о отчете по report_id
+      parameters:
+      - description: report_id
+        in: path
+        name: report_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetReportResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: Получить информацию о отчете по report_id
+      tags:
+      - Reports
+  /api/v1/requests_history:
+    get:
+      description: Получить историю запросов
+      parameters:
+      - description: offset
+        in: path
+        name: offset
+        type: integer
+      - description: limit
+        in: path
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RequestsHistoryResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: Получить историю запросов
+      tags:
+      - Reports
+  /api/v1/set_report:
+    post:
+      consumes:
+      - application/json
+      description: Отправить отчет
+      parameters:
+      - description: Отчет
+        in: body
+        name: report
+        required: true
+        schema:
+          $ref: '#/definitions/models.SetReportReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: Отправить отчет
+      tags:
+      - Reports
+swagger: "2.0"
