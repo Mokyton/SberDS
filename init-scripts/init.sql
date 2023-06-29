@@ -14,3 +14,5 @@ CREATE TABLE public.requests_history (
 
 
 COPY Reports(report_id, creation_date, report_info, model_id) FROM '/docker-entrypoint-initdb.d/data.csv' DELIMITER ',' CSV;
+
+ALTER SEQUENCE public.reports_report_id_seq RESTART WITH 185;

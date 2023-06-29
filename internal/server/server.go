@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Host         string        `default:"localhost" envconfig:"HOST"`
+	Host         string        `default:"" envconfig:"HOST"`
 	Port         string        `default:"8080" envconfig:"PORT"`
 	WriteTimeout time.Duration `default:"10s" envconfig:"WRITE_TIMEOUT"`
 	ReadTimeout  time.Duration `default:"10s" envconfig:"READ_TIMEOUT"`

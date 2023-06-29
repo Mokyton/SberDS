@@ -11,18 +11,20 @@ services:
     ports:
       - "5432:5432"
 
-#  app:
-#    build: ./docker/
-#    environment:
-#      DATABASE_PORT: "5432"
-#      DATABASE_NAME: "sandbox"
-#      DATABASE_USERNAME: "postgres"
-#      DATABASE_PASSWORD: "postgres123"
-#      SERVER_HOST: "localhost"
-#      SERVER_PORT: "8080"
-#      SERVER_WRITE_TIMEOUT: "10s"
-#      SERVER_READ_TIMEOUT: "10s"
-#    depends_on:
-#      - postgres
-#    ports:
-#      - "8080:8080"
+  app:
+    build: .
+    environment:
+      DATABASE_HOST: "postgres"
+      DATABASE_PORT: "5432"
+      DATABASE_NAME: "sandbox"
+      DATABASE_USERNAME: "postgres"
+      DATABASE_PASSWORD: "postgres123"
+      SERVER_HOST: ""
+      SERVER_PORT: "8080"
+      SERVER_WRITE_TIMEOUT: "10s"
+      SERVER_READ_TIMEOUT: "10s"
+      GIN_MODE: "release"
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"

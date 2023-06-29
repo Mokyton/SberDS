@@ -11,7 +11,7 @@ import (
 )
 
 type Config struct {
-	DBHost   string `default:"localhost" envconfig:"HOST"`
+	DBHost   string `default:"" envconfig:"HOST"`
 	DBPort   int    `default:"5432" envconfig:"PORT"`
 	DBName   string `default:"sandbox" envconfig:"NAME"`
 	Username string `default:"postgres" envconfig:"USERNAME"`
